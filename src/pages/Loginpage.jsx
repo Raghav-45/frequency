@@ -1,5 +1,4 @@
-// import React from 'react'
-import { Layout } from '../components/Layout'
+import React, { useState } from 'react'
 import {
   Box,
   Button,
@@ -16,11 +15,30 @@ import {
   useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react'
-import * as React from 'react'
+import { Layout } from '../components/Layout'
+import { Link, useHistory, useLocation } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
+import useMounted from '../hooks/useMounted'
 import { OAuthButtonGroup } from '../components/OAuthButtonGroup'
 import { PasswordField } from '../components/PasswordField'
 
-export default function TestPage() {
+export default function Loginpage() {
+  const history = useHistory()
+  const location = useLocation()
+  const mounted = useMounted()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  function handleRedirectToOrBack() {
+    // console.log(location?.state)
+    history.replace(location.state?.from ?? '/profile')
+    // if (location.state) {
+    //   history.replace(location.state?.from)
+    // } else {
+    //   history.replace('/profile')
+    // }
+  }
+  
   return (
     <Layout>
       <Container maxW="lg" py={{base: '12', md: '24'}} px={{base: '0', sm: '8'}}>
@@ -76,9 +94,23 @@ export default function TestPage() {
               <Stack spacing="5">
                 <FormControl>
                   <FormLabel htmlFor="email">Email</FormLabel>
-                  <Input id="email" type="email" />
+                  <Input
+                    id="email"
+                    type='email'
+                    autoComplete='email'
+                    required
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                  />
                 </FormControl>
-                <PasswordField />
+                <PasswordField
+                  name='password'
+                  type='password'
+                  autoComplete='password'
+                  value={password}
+                  required
+                  onChange={e => setPassword(e.target.value)}
+                />
               </Stack>
               <HStack justify="space-between">
                 <Checkbox defaultChecked>Remember me</Checkbox>
