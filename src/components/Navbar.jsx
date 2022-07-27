@@ -34,7 +34,7 @@ export function Navbar() {
         {!currentUser && <Navlink to='/login' name='Login' />}
         {!currentUser && <Navlink to='/register' name='Register' />}
         {currentUser && <Navlink to='/profile' name='Profile' />}
-        {currentUser && <Navlink to='/Chat' name='Chat' />}
+        {currentUser && <Navlink to='/chat' name='Chat' />}
         {currentUser && <Navlink to='/RTDB' name='RealTimeDB' />}
         {currentUser && (
           <Navlink
