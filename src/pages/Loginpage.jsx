@@ -1,155 +1,106 @@
+// import React from 'react'
+import { Layout } from '../components/Layout'
 import {
+  Box,
   Button,
-  chakra,
+  Checkbox,
+  Container,
+  Divider,
   FormControl,
   FormLabel,
   Heading,
   HStack,
   Input,
   Stack,
-  useToast,
+  Text,
+  useBreakpointValue,
+  useColorModeValue,
 } from '@chakra-ui/react'
-import React, { useState } from 'react'
-import { FaGoogle } from 'react-icons/fa'
-import { Link, useHistory, useLocation } from 'react-router-dom'
-import { Card } from '../components/Card'
-import DividerWithText from '../components/DividerWithText'
-import { Layout } from '../components/Layout'
-import { useAuth } from '../contexts/AuthContext'
-import useMounted from '../hooks/useMounted'
+import * as React from 'react'
+import { OAuthButtonGroup } from '../components/OAuthButtonGroup'
+import { PasswordField } from '../components/PasswordField'
 
-export default function Loginpage() {
-  const history = useHistory()
-  const { signInWithGoogle, login } = useAuth()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const toast = useToast()
-  // const mounted = useRef(false)
-  const location = useLocation()
-
-  // useEffect(() => {
-  //   mounted.current = true
-  //   return () => {
-  //     mounted.current = false
-  //   }
-  // }, [])
-
-  const mounted = useMounted()
-
-  function handleRedirectToOrBack() {
-    // console.log(location?.state)
-    history.replace(location.state?.from ?? '/profile')
-    // if (location.state) {
-    //   history.replace(location.state?.from)
-    // } else {
-    //   history.replace('/profile')
-    // }
-  }
-
+export default function TestPage() {
   return (
     <Layout>
-      <Heading textAlign='center' my={12}>
-        Login
-      </Heading>
-      <Card maxW='md' mx='auto' mt={4}>
-        <chakra.form
-          onSubmit={async e => {
-            e.preventDefault()
-            if (!email || !password) {
-              toast({
-                description: 'Credentials not valid.',
-                status: 'error',
-                duration: 9000,
-                isClosable: true,
-              })
-              return
-            }
-            // your login logic here
-            setIsSubmitting(true)
-            login(email, password)
-              .then(res => {
-                handleRedirectToOrBack()
-              })
-              .catch(error => {
-                console.log(error.message)
-                toast({
-                  description: error.message,
-                  status: 'error',
-                  duration: 9000,
-                  isClosable: true,
-                })
-              })
-              .finally(() => {
-                // setTimeout(() => {
-                //   mounted.current && setIsSubmitting(false)
-                //   console.log(mounted.current)
-                // }, 1000)
-                mounted.current && setIsSubmitting(false)
-              })
-          }}
-        >
-          <Stack spacing='6'>
-            <FormControl id='email'>
-              <FormLabel>Email address</FormLabel>
-              <Input
-                name='email'
-                type='email'
-                autoComplete='email'
-                required
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-            </FormControl>
-            <FormControl id='password'>
-              <FormLabel>Password</FormLabel>
-              <Input
-                name='password'
-                type='password'
-                autoComplete='password'
-                value={password}
-                required
-                onChange={e => setPassword(e.target.value)}
-              />
-            </FormControl>
-            {/* <PasswordField /> */}
-            <Button
-              type='submit'
-              colorScheme='blue'
-              size='lg'
-              fontSize='md'
-              isLoading={isSubmitting}
+      <Container maxW="lg" py={{base: '12', md: '24'}} px={{base: '0', sm: '8'}}>
+        <Stack spacing="8">
+          <Stack spacing="6">
+            {/* <Logo /> */}
+            <Stack
+              spacing={{
+                base: '2',
+                md: '3',
+              }}
+              textAlign="center"
             >
-              Sign in
-            </Button>
+              <Heading
+                size={useBreakpointValue({
+                  base: 'xs',
+                  md: 'sm',
+                })}
+              >
+                Log in to your account
+              </Heading>
+              <HStack spacing="1" justify="center">
+                <Text color="muted">Don't have an account?</Text>
+                <Button variant="link" colorScheme="blue">
+                  Sign up
+                </Button>
+              </HStack>
+            </Stack>
           </Stack>
-        </chakra.form>
-        <HStack justifyContent='space-between' my={4}>
-          <Button variant='link'>
-            <Link to='/forgot-password'>Forgot password?</Link>
-          </Button>
-          <Button variant='link' onClick={() => history.push('/register')}>
-            Register
-          </Button>
-        </HStack>
-        <DividerWithText my={6}>OR</DividerWithText>
-        <Button
-          variant='outline'
-          isFullWidth
-          colorScheme='red'
-          leftIcon={<FaGoogle />}
-          onClick={() =>
-            signInWithGoogle()
-              .then(user => {
-                handleRedirectToOrBack()
-                console.log(user)
-              })
-              .catch(e => console.log(e.message))
-          }
-        >
-          Sign in with Google
-        </Button>
-      </Card>
+          <Box
+            py={{
+              base: '0',
+              sm: '8',
+            }}
+            px={{
+              base: '4',
+              sm: '10',
+            }}
+            bg={useBreakpointValue({
+              base: 'transparent',
+              sm: 'bg-surface',
+            })}
+            boxShadow={{
+              base: 'none',
+              sm: useColorModeValue('md', 'md-dark'),
+            }}
+            borderRadius={{
+              base: 'none',
+              sm: 'xl',
+            }}
+          >
+            <Stack spacing="6">
+              <Stack spacing="5">
+                <FormControl>
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <Input id="email" type="email" />
+                </FormControl>
+                <PasswordField />
+              </Stack>
+              <HStack justify="space-between">
+                <Checkbox defaultChecked>Remember me</Checkbox>
+                <Button variant="link" colorScheme="blue" size="sm">
+                  Forgot password?
+                </Button>
+              </HStack>
+              <Stack spacing="6">
+                <Button variant="primary">Sign in</Button>
+                <HStack>
+                  <Divider />
+                  <Text fontSize="sm" whiteSpace="nowrap" color="muted">
+                    or continue with
+                  </Text>
+                  <Divider />
+                </HStack>
+                <OAuthButtonGroup />
+              </Stack>
+            </Stack>
+          </Box>
+        </Stack>
+      </Container>
     </Layout>
   )
 }
