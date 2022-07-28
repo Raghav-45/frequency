@@ -158,7 +158,6 @@ export default function Loginpage() {
                   </FormControl>
                   <PasswordField
                     name='password'
-                    type='password'
                     autoComplete='password'
                     value={password}
                     required
