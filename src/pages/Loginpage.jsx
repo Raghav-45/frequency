@@ -36,7 +36,7 @@ export default function Loginpage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [RememberMe, setRememberMe] = useState(false)
+  const [RememberMe, setRememberMe] = useState(true)
 
   const iconProviders = [
     {
