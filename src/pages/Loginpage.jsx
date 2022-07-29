@@ -36,6 +36,7 @@ export default function Loginpage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [RememberMe, setRememberMe] = useState(false)
 
   const iconProviders = [
     {
@@ -121,7 +122,7 @@ export default function Loginpage() {
                 }
                 // your login logic here
                 setIsSubmitting(true)
-                login(email, password)
+                login(email, password, RememberMe)
                   .then(res => {
                     handleRedirectToOrBack()
                   })
@@ -165,9 +166,9 @@ export default function Loginpage() {
                   />
                 </Stack>
                 <HStack justify="space-between">
-                  <Checkbox defaultChecked>Remember me</Checkbox>
+                  <Checkbox isChecked={RememberMe} onChange={e => setRememberMe(e.target.checked)}>Remember me</Checkbox>
                   <Button variant="link" colorScheme="blue" size="sm">
-                    Forgot password?
+                    <Link to='/forgot-password'>Forgot password?</Link>
                   </Button>
                 </HStack>
                 <Stack spacing="6">

@@ -39,7 +39,7 @@ export default function AuthContextProvider({ children }) {
     console.log('The user is', currentUser)
   }, [currentUser])
 
-  function login(email, password) {
+  function login(email, password, RememberMe) {
     return signInWithEmailAndPassword(auth, email, password)
   }
 
